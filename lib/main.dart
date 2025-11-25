@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meuapp/ui/screens/home/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'providers/auth_provider.dart';
 import 'ui/screens/login/login_screen.dart';
+import 'ui/screens/register/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,31 +14,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'App Financeiro',
-      
-      // TELA INICIAL
-      home: const LoginScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'App Financeiro',
 
-      // ROTAS (quando você criar novas telas, basta adicionar aqui)
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        // '/register': (context) => const RegisterScreen(),  ← adiciona depois
-      },
+        home: const LoginScreen(),
 
-      // TEMA BASE
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        scaffoldBackgroundColor: Colors.grey.shade100,
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
+        routes: {
+          '/login': (context) => const LoginScreen(),
+          '/register': (context) => const RegisterScreen(),
+          '/home': (context) => const HomeScreen(),
+        },
       ),
     );
   }
